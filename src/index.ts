@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import { router } from './config/routes';
 
 const app: Express = express();
 
@@ -12,7 +13,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'))
-
-app.use('/user', require('./domain/routes/user-route'));
+app.use(router);
 
 export default app;

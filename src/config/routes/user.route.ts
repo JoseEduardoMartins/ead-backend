@@ -9,9 +9,9 @@ router.get(`${config.api_path}/users`, userCtrl.getUsers);
 
 router.get(`${config.api_path}/users/:id`, validate(['id'], validators), userCtrl.getUser);
 
-router.post(`${config.api_path}/users`, validate(['name'], validators), userCtrl.createUser);
+router.post(`${config.api_path}/users`, validate(['type_user', 'name', 'birth', 'gender', 'sector', 'phone', 'email', 'password'], validators), userCtrl.createUser);
 
-router.put(`${config.api_path}/users/:id`, validate(['id', 'name'], validators), userCtrl.updateUser);
+router.put(`${config.api_path}/users/:id`, validate(['id', 'type_user', 'profile_picture', 'name', 'birth', 'gender', 'sector', 'phone', 'biography', 'about', 'linkedin', 'github', 'level', 'email', 'password', 'user_status'], validators), userCtrl.updateUser);
 
 router.delete(`${config.api_path}/users/:id`, validate(['id'], validators), userCtrl.deleteUser);
 
