@@ -1,15 +1,14 @@
 import { createPool, Pool } from 'mysql2';
-import config from './config';
-
+import { mysql } from './config';
 let pool: Pool;
 
 export const connect = () => {
     try {
         pool = createPool({
-            host: config.mysql.host,
-            user: config.mysql.user,
-            password: config.mysql.password,
-            database: config.mysql.database
+            host: mysql.host,
+            user: mysql.user,
+            password: mysql.password,
+            database: mysql.database
         });
     } catch (error) {
         console.error('Mysql connect > Error: ', error);
