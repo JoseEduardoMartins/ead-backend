@@ -129,7 +129,7 @@ const password = () =>
         .trim().escape()
         .customSanitizer(value => {
             return md5(value + api.key);
-          });
+        });
         
 const isActive = () =>
     body('isActive')
