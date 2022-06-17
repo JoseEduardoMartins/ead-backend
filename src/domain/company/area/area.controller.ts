@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { ApiError } from '../../application/error/api-error.model';
-import { Technology } from './technology.model';
-import { findAll, findById, findByName, save, remove, update } from './technology.service';
+import { Area } from './area.model';
+import { findAll, findById, findByName, save, remove, update } from './area.service';
 
-const getTechnologies = (req: Request, res: Response) => {
+const getAreas = (req: Request, res: Response) => {
     if(req.query.name){
         const name = String(req.query.name);
-        getTechnologyByName(res, name);
+        getAreaByName(res, name);
         return;
     }
     findAll()
@@ -14,13 +14,13 @@ const getTechnologies = (req: Request, res: Response) => {
         .catch(err => res.status(500).json(new ApiError(err.message, err)));
 };
 
-const getTechnologyByName = (res: Response, name: string) => {
+const getAreaByName = (res: Response, name: string) => {
     findByName(name)
         .then(data => res.status(200).json(data))
         .catch(err => res.status(500).json(new ApiError(err.message, err)));
 };
 
-const getTechnology = (req: Request, res: Response) => {
+const getArea = (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
     findById(id)
@@ -28,17 +28,17 @@ const getTechnology = (req: Request, res: Response) => {
         .catch(err => res.status(500).json(new ApiError(err.message, err)));
 };
 
-const createTechnology = (req: Request, res: Response) => {
-    const body: Technology = req.body;
+const createArea = (req: Request, res: Response) => {
+    const body: Area = req.body;
 
     save(body)
         .then((data) => res.status(201).json(data))
         .catch((err) => (res.status(500).json(new ApiError(err.message, err))));
 };
 
-const updateTechnology = (req: Request, res: Response) => {
+const updateArea = (req: Request, res: Response) => {
     const id = Number(req.params.id);
-    const body: Technology = req.body;
+    const body: Area = req.body;
 
     update(id, body)
         .then(data => {
@@ -49,7 +49,7 @@ const updateTechnology = (req: Request, res: Response) => {
 		.catch(err => res.status(500).json(new ApiError(err.message, err)));
 };
 
-const deleteTechnology = (req: Request, res: Response) => {
+const deleteArea = (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
     remove(id)
@@ -62,9 +62,9 @@ const deleteTechnology = (req: Request, res: Response) => {
 };
 
 export default {
-    getTechnologies,
-    getTechnology,
-    createTechnology,
-    updateTechnology,
-    deleteTechnology
+    getAreas,
+    getArea,
+    createArea,
+    updateArea,
+    deleteArea
 };

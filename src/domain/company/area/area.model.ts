@@ -1,5 +1,5 @@
-export type Sector = {
-    id?: number;
+export type Area = {
+    id?: number
     name: string;
     description: string;
 }

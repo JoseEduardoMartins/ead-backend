@@ -1,12 +1,11 @@
 import { Request, Response } from 'express';
 import { ApiError } from '../../application/error/api-error.model';
-import { Sector } from './sector.model';
-import { findAll, findById, findByName, save, remove, update } from './sector.service';
+import { Topic } from './topic.model';
+import { findAll, findById, findByFilters, save, remove, update } from './topic.service';
 
-const getSectors = (req: Request, res: Response) => {
-    if(req.query.name){
-        const name = String(req.query.name);
-        getSectorByName(res, name);
+const getTopics = (req: Request, res: Response) => {
+    if(Object.keys(req.query).length > 0){
+        getTopicByFilters(res, req.query);
         return;
     }
     findAll()
@@ -14,13 +13,13 @@ const getSectors = (req: Request, res: Response) => {
         .catch(err => res.status(500).json(new ApiError(err.message, err)));
 };
 
-const getSectorByName = (res: Response, name: string) => {
-    findByName(name)
+const getTopicByFilters = (res: Response, filters: object) => {
+    findByFilters(filters)
         .then(data => res.status(200).json(data))
         .catch(err => res.status(500).json(new ApiError(err.message, err)));
 };
 
-const getSector = (req: Request, res: Response) => {
+const getTopic = (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
     findById(id)
@@ -28,17 +27,17 @@ const getSector = (req: Request, res: Response) => {
         .catch(err => res.status(500).json(new ApiError(err.message, err)));
 };
 
-const createSector = (req: Request, res: Response) => {
-    const body: Sector = req.body;
+const createTopic = (req: Request, res: Response) => {
+    const body: Topic = req.body;
 
     save(body)
         .then((data) => res.status(201).json(data))
         .catch((err) => (res.status(500).json(new ApiError(err.message, err))));
 };
 
-const updateSector = (req: Request, res: Response) => {
+const updateTopic = (req: Request, res: Response) => {
     const id = Number(req.params.id);
-    const body: Sector = req.body;
+    const body: Topic = req.body;
 
     update(id, body)
         .then(data => {
@@ -49,7 +48,7 @@ const updateSector = (req: Request, res: Response) => {
 		.catch(err => res.status(500).json(new ApiError(err.message, err)));
 };
 
-const deleteSector = (req: Request, res: Response) => {
+const deleteTopic = (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
     remove(id)
@@ -62,9 +61,9 @@ const deleteSector = (req: Request, res: Response) => {
 };
 
 export default {
-    getSectors,
-    getSector,
-    createSector,
-    updateSector,
-    deleteSector
+    getTopics,
+    getTopic,
+    createTopic,
+    updateTopic,
+    deleteTopic
 };

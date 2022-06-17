@@ -1,14 +1,14 @@
-import { Technology } from './technology.model';
+import { Area } from './area.model';
 import { execute } from '../../../config/mysql';
 
-export const findAll = async (): Promise<Technology[]> => {
-    const query = 'SELECT * FROM technology';
+export const findAll = async (): Promise<Area[]> => {
+    const query = 'SELECT * FROM area';
 
     return execute(query, {}).then(data => data).catch(err => err);
 };
 
-export const findById = async (id: number): Promise<Technology> => {
-    const query = 'SELECT * FROM technology WHERE id = ? LIMIT 1';
+export const findById = async (id: number): Promise<Area> => {
+    const query = 'SELECT * FROM area WHERE id = ? LIMIT 1';
 
     if (!validators['number'](id)) throw new Error('Param {id} is invalid');
 
@@ -19,8 +19,8 @@ export const findById = async (id: number): Promise<Technology> => {
 		}).catch(err => err);
 };
 
-export const findByName = async (name: string): Promise<Technology> => {
-    const query = 'SELECT * FROM technology WHERE name = ? LIMIT 1';
+export const findByName = async (name: string): Promise<Area> => {
+    const query = 'SELECT * FROM area WHERE name = ? LIMIT 1';
 
     if (!validators['string'](name)) throw new Error('Param {name} is invalid');
 
@@ -31,22 +31,22 @@ export const findByName = async (name: string): Promise<Technology> => {
 		}).catch(err => err);
 };
 
-export const save = async (technology: Technology): Promise<void> => {
-    const query = 'INSERT INTO technology SET ?';
+export const save = async (area: Area): Promise<void> => {
+    const query = 'INSERT INTO area SET ?';
 
-    return execute(query, technology)
+    return execute(query, area)
         .then(data => {
             const { insertId } = data;
             return { id: insertId };
         }).catch(err => err);
 };
 
-export const update = async (id: number, technology: Technology): Promise<Technology | null> => {
-    const query = `UPDATE technology SET ? WHERE id = ${id}`;
+export const update = async (id: number, area: Area): Promise<Area | null> => {
+    const query = `UPDATE area SET ? WHERE id = ${id}`;
 
     if (!validators['number'](id)) throw new Error('Param {id} is invalid');
 
-    return execute(query, technology)
+    return execute(query, area)
         .then(data => {
             if (data?.affectedRows === 0) return null;
             return {};
@@ -54,7 +54,7 @@ export const update = async (id: number, technology: Technology): Promise<Techno
 };
 
 export const remove = async (id: number): Promise<void> => {
-    const query = `DELETE FROM technology WHERE id = ${id}`;
+    const query = `DELETE FROM area WHERE id = ${id}`;
 
     if (!validators['number'](id)) throw new Error('Param {id} is invalid');
 

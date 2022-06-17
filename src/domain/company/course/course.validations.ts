@@ -53,13 +53,13 @@ const time = () =>
 
 const technology_id = () =>
     body('technology_id')
-        .isInt().withMessage('TECHNOLO must be number.');
+        .isInt().withMessage('TECHNOLOGY ID must be number.');
 
 const isActive = () =>
     body('isActive')
-        .isBoolean().withMessage('TECHNOLO must be number.')
-        .exists().withMessage('TIME can\'t be undefined.')
-        .notEmpty().withMessage('TIME can\'t be null.');
+        .isBoolean().withMessage('COURSE STATUS must be number.')
+        .exists().withMessage('COURSE STATUS can\'t be undefined.')
+        .notEmpty().withMessage('COURSE STATUS can\'t be null.');
 
 const validators = {
     id,

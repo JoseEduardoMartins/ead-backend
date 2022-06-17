@@ -1,14 +1,14 @@
-import { Sector } from './sector.model';
+import { Topic } from './topic.model';
 import { execute } from '../../../config/mysql';
 
-export const findAll = async (): Promise<Sector[]> => {
-    const query = 'SELECT * FROM sector';
+export const findAll = async (): Promise<Topic[]> => {
+    const query = 'SELECT * FROM topic';
 
     return execute(query, {}).then(data => data).catch(err => err);
 };
 
-export const findById = async (id: number): Promise<Sector> => {
-    const query = 'SELECT * FROM sector WHERE id = ? LIMIT 1';
+export const findById = async (id: number): Promise<Topic> => {
+    const query = 'SELECT * FROM topic WHERE id = ? LIMIT 1';
 
     if (!validators['number'](id)) throw new Error('Param {id} is invalid');
 
@@ -19,34 +19,36 @@ export const findById = async (id: number): Promise<Sector> => {
 		}).catch(err => err);
 };
 
-export const findByName = async (name: string): Promise<Sector> => {
-    const query = 'SELECT * FROM sector WHERE name = ? LIMIT 1';
+export const findByFilters = async (filters: object): Promise<Topic> => {
+    let query = 'SELECT * FROM topic WHERE ';
 
-    if (!validators['string'](name)) throw new Error('Param {name} is invalid');
+    const elements = Object.entries(filters);
 
-    return execute(query, name)
-		.then(data => {
-			if (data?.length === 0) return {};
-			return data[0];
-		}).catch(err => err);
+    elements.forEach((element, index) => {
+        query += `${element[0]} = '${element[1]}' ${(index < elements.length-1) ? 'AND ': ';'}`;
+    });
+
+    return execute(query, {})
+        .then(data => data)
+        .catch(err => err);
 };
 
-export const save = async (sector: Sector): Promise<void> => {
-    const query = 'INSERT INTO sector SET ?';
+export const save = async (topic: Topic): Promise<void> => {
+    const query = 'INSERT INTO topic SET ?';
 
-    return execute(query, sector)
+    return execute(query, topic)
         .then(data => {
             const { insertId } = data;
             return { id: insertId };
         }).catch(err => err);
 };
 
-export const update = async (id: number, sector: Sector): Promise<Sector | null> => {
-    const query = `UPDATE sector SET ? WHERE id = ${id}`;
+export const update = async (id: number, topic: Topic): Promise<Topic | null> => {
+    const query = `UPDATE topic SET ? WHERE id = ${id}`;
 
     if (!validators['number'](id)) throw new Error('Param {id} is invalid');
 
-    return execute(query, sector)
+    return execute(query, topic)
         .then(data => {
             if (data?.affectedRows === 0) return null;
             return {};
@@ -54,7 +56,7 @@ export const update = async (id: number, sector: Sector): Promise<Sector | null>
 };
 
 export const remove = async (id: number): Promise<void> => {
-    const query = `DELETE FROM sector WHERE id = ${id}`;
+    const query = `DELETE FROM topic WHERE id = ${id}`;
 
     if (!validators['number'](id)) throw new Error('Param {id} is invalid');
 

@@ -1,5 +1,5 @@
 import { body, param } from 'express-validator';
-import { findByName } from './technology.service';
+import { findByName } from './area.service';
 
 const id = () =>
     param('id')
