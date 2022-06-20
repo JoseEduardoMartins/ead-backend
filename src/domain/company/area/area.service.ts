@@ -19,7 +19,7 @@ export const findById = async (id: number): Promise<Area> => {
 		}).catch(err => err);
 };
 
-export const findByName = async (name: string): Promise<Area> => {
+export const npmfindByName = async (name: string): Promise<Area> => {
     const query = 'SELECT * FROM area WHERE name = ? LIMIT 1';
 
     if (!validators['string'](name)) throw new Error('Param {name} is invalid');
