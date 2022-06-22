@@ -9,9 +9,9 @@ router.get(`${api.path}/users`, userCtrl.getUsers);
 
 router.get(`${api.path}/users/:id`, validate(['id'], validators), userCtrl.getUser);
 
-router.post(`${api.path}/users`, validate(['type_user', 'name', 'birth', 'gender', 'sector', 'phone', 'level', 'email', 'password', 'isActive'], validators), userCtrl.createUser);
+router.post(`${api.path}/users`, validate(['type_user', 'name', 'birth', 'gender', 'area', 'phone', 'level', 'email', 'password', 'isActive'], validators), userCtrl.createUser);
 
-router.put(`${api.path}/users/:id`, validate(['id', 'type_user', 'profile_picture', 'name', 'birth', 'gender', 'sector', 'phone', 'biography', 'about', 'linkedin', 'github', 'level', 'email', 'password', 'isActive'], validators), userCtrl.updateUser);
+router.put(`${api.path}/users/:id`, validate(['id', 'type_user', 'profile_picture', 'name', 'birth', 'gender', 'area', 'phone', 'biography', 'about', 'linkedin', 'github', 'level', 'email', 'password', 'isActive'], validators), userCtrl.updateUser);
 
 router.delete(`${api.path}/users/:id`, validate(['id'], validators), userCtrl.deleteUser);
 

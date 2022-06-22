@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import { ApiError } from '../../application/error/api-error.model';
 import { Topic } from './topic.model';
-import { findAll, findById, findByFilters, save, remove, update } from './topic.service';
+import { findAll, findById, findByName, save, remove, update } from './topic.service';
 
 const getTopics = (req: Request, res: Response) => {
-    if(Object.keys(req.query).length > 0){
-        getTopicByFilters(res, req.query);
+    if(req.query.name){
+        const name = String(req.query.name);
+        getTopicByName(res, name);
         return;
     }
     findAll()
@@ -13,8 +14,8 @@ const getTopics = (req: Request, res: Response) => {
         .catch(err => res.status(500).json(new ApiError(err.message, err)));
 };
 
-const getTopicByFilters = (res: Response, filters: object) => {
-    findByFilters(filters)
+const getTopicByName = (res: Response, name: string) => {
+    findByName(name)
         .then(data => res.status(200).json(data))
         .catch(err => res.status(500).json(new ApiError(err.message, err)));
 };

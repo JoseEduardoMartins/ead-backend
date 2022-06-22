@@ -44,8 +44,8 @@ const gender = () =>
         .notEmpty().withMessage('GENDER can\'t be null.')
         .isIn(['feminine', 'masculine', 'other']);
 
-const sector = () =>
-    body('sector_id')
+const area = () =>
+    body('area_id')
         .isInt().withMessage('SECTOR must be number.')
         .exists().withMessage('SECTOR can\'t be undefined.')
         .notEmpty().withMessage('SECTOR can\'t be null.');
@@ -144,7 +144,7 @@ const validators = {
     name,
     birth,
     gender,
-    sector,
+    area,
     phone,
     biography,
     about,

@@ -19,17 +19,16 @@ export const findById = async (id: number): Promise<Topic> => {
 		}).catch(err => err);
 };
 
-export const findByFilters = async (filters: object): Promise<Topic> => {
-    let query = 'SELECT * FROM topic WHERE ';
+export const findByName = async (name: string): Promise<Topic> => {
+    let query = 'SELECT * FROM topic WHERE name = ? LIMIT 1';
 
-    const elements = Object.entries(filters);
+    if (!validators['string'](name)) throw new Error('Param {name} is invalid');
 
-    elements.forEach((element, index) => {
-        query += `${element[0]} = '${element[1]}' ${(index < elements.length-1) ? 'AND ': ';'}`;
-    });
-
-    return execute(query, {})
-        .then(data => data)
+    return execute(query, name)
+        .then(data => {
+			if (data?.length === 0) return {};
+			return data[0];
+		})
         .catch(err => err);
 };
 
