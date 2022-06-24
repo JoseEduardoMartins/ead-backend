@@ -1,5 +1,5 @@
 import { body, param } from 'express-validator';
-import { findByName } from './topic.service';
+import { findByName } from './theme.service';
 
 const id = () =>
     param('id')
@@ -7,11 +7,11 @@ const id = () =>
         .exists().withMessage('ID can\'t be undefined.')
         .notEmpty().withMessage('ID can\'t be null.');
 
-const course = () =>
-    body('course_id')
-        .isInt().withMessage('COURSE ID must be number.')
-        .exists().withMessage('COURSE ID can\'t be undefined.')
-        .notEmpty().withMessage('COURSE ID can\'t be null.');
+const topic = () =>
+    body('topic_id')
+        .isInt().withMessage('TOPIC ID must be number.')
+        .exists().withMessage('TOPIC ID can\'t be undefined.')
+        .notEmpty().withMessage('TOPIC ID can\'t be null.');
         
 const name = () =>
     body('name')
@@ -24,7 +24,7 @@ const name = () =>
             findByName(value)
                 .then(data => {
                     if (Object.keys(data).length) {
-                        return Promise.reject('TOPIC already exists.');
+                        return Promise.reject('THEME already exists.');
                     }
                 }).catch(err => {
                     return Promise.reject(err);
@@ -39,7 +39,7 @@ const description = () =>
 
 const validators = {
     id,
-    course,
+    topic,
     name,
     description
 };
