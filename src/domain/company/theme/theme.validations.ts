@@ -1,5 +1,5 @@
 import { body, param } from 'express-validator';
-import { findByName } from './theme.service';
+import { findById } from '../topic/topic.service'
 
 const id = () =>
     param('id')
@@ -11,7 +11,15 @@ const topic = () =>
     body('topic_id')
         .isInt().withMessage('TOPIC ID must be number.')
         .exists().withMessage('TOPIC ID can\'t be undefined.')
-        .notEmpty().withMessage('TOPIC ID can\'t be null.');
+        .notEmpty().withMessage('TOPIC ID can\'t be null.')
+        .custom(value =>
+            findById(value)
+                .then(data => {
+                    if (!Object.keys(data).length) return Promise.reject('TOPIC doesn\'t exist.');
+                }).catch(err => {
+                    return Promise.reject(err);
+                })
+        );
         
 const name = () =>
     body('name')
@@ -19,17 +27,7 @@ const name = () =>
         .exists().withMessage('NAME can\'t be undefined.')
         .notEmpty().withMessage('NAME can\'t be null.')
         .isLength({ max: 255 }).withMessage('NAME can\'t be too large.')
-        .trim().escape()
-        .custom(value =>
-            findByName(value)
-                .then(data => {
-                    if (Object.keys(data).length) {
-                        return Promise.reject('THEME already exists.');
-                    }
-                }).catch(err => {
-                    return Promise.reject(err);
-                })
-        );
+        .trim().escape();
 
 const description = () =>
     body('description')
@@ -37,11 +35,16 @@ const description = () =>
         .isLength({ max: 1024 }).withMessage('DESCRIPTION can\'t be too large.')
         .trim().escape();
 
+const position = () =>
+    body('position')
+        .isInt().withMessage('ID must be number.');
+
 const validators = {
     id,
     topic,
     name,
-    description
+    description,
+    position
 };
 
 export default validators;

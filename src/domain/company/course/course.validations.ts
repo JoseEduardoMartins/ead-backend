@@ -1,11 +1,27 @@
 import { body, param } from 'express-validator';
 import { findByName } from './course.service';
+import { findById as findUserById } from '../user/user.service'
+import { findById as findAreaById } from '../area/area.service';
 
 const id = () =>
     param('id')
         .isInt().withMessage('ID must be number.')
         .exists().withMessage('ID can\'t be undefined.')
         .notEmpty().withMessage('ID can\'t be null.');
+
+const user = () =>
+    body('user_id')
+        .isInt().withMessage('USER ID must be number.')
+        .exists().withMessage('USER ID can\'t be undefined.')
+        .notEmpty().withMessage('USER ID can\'t be null.')
+        .custom(value =>
+            findUserById(value)
+                .then(data => {
+                    if (!Object.keys(data).length) return Promise.reject('USER doesn\'t exist.');
+                }).catch(err => {
+                    return Promise.reject(err);
+                })
+        );
         
 const name = () =>
     body('name')
@@ -17,9 +33,7 @@ const name = () =>
         .custom(value =>
             findByName(value)
                 .then(data => {
-                    if (Object.keys(data).length) {
-                        return Promise.reject('COURSE already exists.');
-                    }
+                    if (Object.keys(data).length) return Promise.reject('COURSE already exists.');
                 }).catch(err => {
                     return Promise.reject(err);
                 })
@@ -34,7 +48,7 @@ const description = () =>
         .trim().escape();
 
 const date_update = () =>
-    body('description')
+    body('date_update')
         .isDate().withMessage('DATE UPDATE must be date.')
         .trim().escape();
 
@@ -51,9 +65,19 @@ const time = () =>
         .exists().withMessage('TIME can\'t be undefined.')
         .notEmpty().withMessage('TIME can\'t be null.');
 
-const technology_id = () =>
-    body('technology_id')
-        .isInt().withMessage('TECHNOLOGY ID must be number.');
+const area = () =>
+    body('area_id')
+        .isInt().withMessage('AREA ID must be number.')
+        .exists().withMessage('AREA ID can\'t be undefined.')
+        .notEmpty().withMessage('AREA ID can\'t be null.')
+        .custom(value =>
+            findAreaById(value)
+                .then(data => {
+                    if (!Object.keys(data).length) return Promise.reject('AREA doesn\'t exist.');
+                }).catch(err => {
+                    return Promise.reject(err);
+                })
+        );
 
 const isActive = () =>
     body('isActive')
@@ -63,12 +87,13 @@ const isActive = () =>
 
 const validators = {
     id,
+    user,
     name,
     description,
     date_update,
     level,
     time,
-    technology_id,
+    area,
     isActive
 };
 

@@ -1,5 +1,5 @@
 import { body, param } from 'express-validator';
-import { findById } from '../course/course.service'
+import { findById } from '../theme/theme.service'
 
 const id = () =>
     param('id')
@@ -7,15 +7,15 @@ const id = () =>
         .exists().withMessage('ID can\'t be undefined.')
         .notEmpty().withMessage('ID can\'t be null.');
 
-const course = () =>
-    body('course_id')
-        .isInt().withMessage('COURSE ID must be number.')
-        .exists().withMessage('COURSE ID can\'t be undefined.')
-        .notEmpty().withMessage('COURSE ID can\'t be null.')
+const theme = () =>
+    body('theme_id')
+        .isInt().withMessage('TOPIC ID must be number.')
+        .exists().withMessage('TOPIC ID can\'t be undefined.')
+        .notEmpty().withMessage('TOPIC ID can\'t be null.')
         .custom(value =>
             findById(value)
                 .then(data => {
-                    if (!Object.keys(data).length) return Promise.reject('COURSE doesn\'t exist.');
+                    if (!Object.keys(data).length) return Promise.reject('THEME doesn\'t exist.');
                 }).catch(err => {
                     return Promise.reject(err);
                 })
@@ -29,11 +29,12 @@ const name = () =>
         .isLength({ max: 255 }).withMessage('NAME can\'t be too large.')
         .trim().escape();
 
-const description = () =>
-    body('description')
-        .isString().withMessage('DESCRIPTION must be string.')
-        .isLength({ max: 1024 }).withMessage('DESCRIPTION can\'t be too large.')
-        .trim().escape();
+const type = () =>
+    body('type')
+        .isString().withMessage('TYPE must be string.')
+        .exists().withMessage('TYPE can\'t be undefined.')
+        .notEmpty().withMessage('TYPE can\'t be null.')
+        .isIn(['quiz', 'video']).withMessage('TYPE can only contain keywords.');
 
 const position = () =>
     body('position')
@@ -41,9 +42,9 @@ const position = () =>
 
 const validators = {
     id,
-    course,
+    theme,
     name,
-    description,
+    type,
     position
 };
 

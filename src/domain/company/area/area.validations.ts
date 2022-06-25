@@ -17,9 +17,7 @@ const name = () =>
         .custom(value =>
             findByName(value)
                 .then(data => {
-                    if (Object.keys(data).length) {
-                        return Promise.reject('TECHNOLOGY already exists.');
-                    }
+                    if (Object.keys(data).length) return Promise.reject('TECHNOLOGY already exists.');
                 }).catch(err => {
                     return Promise.reject(err);
                 })

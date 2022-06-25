@@ -2,6 +2,7 @@ import md5 from 'md5';
 import { api } from '../../../config/config';
 import { body, param } from 'express-validator';
 import { findByPhone, findByEmail } from './user.service';
+import { findById } from '../area/area.service';
 
 const id = () =>
     param('id')
@@ -46,9 +47,17 @@ const gender = () =>
 
 const area = () =>
     body('area_id')
-        .isInt().withMessage('SECTOR must be number.')
-        .exists().withMessage('SECTOR can\'t be undefined.')
-        .notEmpty().withMessage('SECTOR can\'t be null.');
+        .isInt().withMessage('AREA ID must be number.')
+        .exists().withMessage('AREA ID can\'t be undefined.')
+        .notEmpty().withMessage('AREA ID can\'t be null.')
+        .custom(value =>
+            findById(value)
+                .then(data => {
+                    if (!Object.keys(data).length) return Promise.reject('AREA doesn\'t exist.');
+                }).catch(err => {
+                    return Promise.reject(err);
+                })
+        );
 
 const phone = () =>
     body('phone')

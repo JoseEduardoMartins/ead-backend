@@ -9,9 +9,9 @@ router.get(`${api.path}/courses`, courseCtrl.getCourses);
 
 router.get(`${api.path}/courses/:id`, validate(['id'], validators), courseCtrl.getCourse);
 
-router.post(`${api.path}/courses`, validate(['name', 'description'], validators), courseCtrl.createCourse);
+router.post(`${api.path}/courses`, validate(['user', 'name', 'description', 'date_update', 'level', 'time', 'area', 'isActive'], validators), courseCtrl.createCourse);
 
-router.put(`${api.path}/courses/:id`, validate(['id', 'name', 'description'], validators), courseCtrl.updateCourse);
+router.put(`${api.path}/courses/:id`, validate(['id', 'user', 'name', 'description', 'date_update', 'level', 'time', 'area', 'isActive'], validators), courseCtrl.updateCourse);
 
 router.delete(`${api.path}/courses/:id`, validate(['id'], validators), courseCtrl.deleteCourse);
 

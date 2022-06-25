@@ -9,9 +9,9 @@ router.get(`${api.path}/topics`, topicCtrl.getTopics);
 
 router.get(`${api.path}/topics/:id`, validate(['id'], validators), topicCtrl.getTopic);
 
-router.post(`${api.path}/topics`, validate(['course', 'name', 'description'], validators), topicCtrl.createTopic);
+router.post(`${api.path}/topics`, validate(['course', 'name', 'description', 'position'], validators), topicCtrl.createTopic);
 
-router.put(`${api.path}/topics/:id`, validate(['id', 'course', 'name', 'description'], validators), topicCtrl.updateTopic);
+router.put(`${api.path}/topics/:id`, validate(['id', 'course', 'name', 'description', 'position'], validators), topicCtrl.updateTopic);
 
 router.delete(`${api.path}/topics/:id`, validate(['id'], validators), topicCtrl.deleteTopic);
 
