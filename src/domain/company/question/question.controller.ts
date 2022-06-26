@@ -1,16 +1,12 @@
 import { Request, Response } from 'express';
 import { ApiError } from '../../application/error/api-error.model';
-import { Activity } from './activity.model';
-import { findAll, findById, findByThemeId, findByName, save, remove, update } from './activity.service';
+import { Question } from './question.model';
+import { findAll, findById, findByQuizId, save, remove, update } from './question.service';
 
-const getActivities = (req: Request, res: Response) => {
-    if(req.query.theme_id){
-        const id = Number(req.query.theme_id);
-        getActivitiesByThemeId(res, id);
-        return;
-    } else if(req.query.name){
-        const name = String(req.query.name);
-        getActivityByName(res, name);
+const getQuestions = (req: Request, res: Response) => {
+    if(req.query.quiz_id){
+        const id = Number(req.query.quiz_id);
+        getQuestionByQuizId(res, id);
         return;
     }
     findAll()
@@ -18,19 +14,13 @@ const getActivities = (req: Request, res: Response) => {
         .catch(err => res.status(500).json(new ApiError(err.message, err)));
 };
 
-const getActivitiesByThemeId = (res: Response, id: number) => {
-    findByThemeId(id)
+const getQuestionByQuizId = (res: Response, id: number) => {
+    findByQuizId(id)
         .then(data => res.status(200).json(data))
         .catch(err => res.status(500).json(new ApiError(err.message, err)));
 };
 
-const getActivityByName = (res: Response, name: string) => {
-    findByName(name)
-        .then(data => res.status(200).json(data))
-        .catch(err => res.status(500).json(new ApiError(err.message, err)));
-};
-
-const getActivity = (req: Request, res: Response) => {
+const getQuestion = (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
     findById(id)
@@ -38,17 +28,17 @@ const getActivity = (req: Request, res: Response) => {
         .catch(err => res.status(500).json(new ApiError(err.message, err)));
 };
 
-const createActivity = (req: Request, res: Response) => {
-    const body: Activity = req.body;
+const createQuestion = (req: Request, res: Response) => {
+    const body: Question = req.body;
 
     save(body)
         .then((data) => res.status(201).json(data))
         .catch((err) => (res.status(500).json(new ApiError(err.message, err))));
 };
 
-const updateActivity = (req: Request, res: Response) => {
+const updateQuestion = (req: Request, res: Response) => {
     const id = Number(req.params.id);
-    const body: Activity = req.body;
+    const body: Question = req.body;
 
     update(id, body)
         .then(data => {
@@ -59,7 +49,7 @@ const updateActivity = (req: Request, res: Response) => {
 		.catch(err => res.status(500).json(new ApiError(err.message, err)));
 };
 
-const deleteActivity = (req: Request, res: Response) => {
+const deleteQuestion = (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
     remove(id)
@@ -72,9 +62,9 @@ const deleteActivity = (req: Request, res: Response) => {
 };
 
 export default {
-    getActivities,
-    getActivity,
-    createActivity,
-    updateActivity,
-    deleteActivity
+    getQuestions,
+    getQuestion,
+    createQuestion,
+    updateQuestion,
+    deleteQuestion
 };

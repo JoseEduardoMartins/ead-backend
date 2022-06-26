@@ -19,6 +19,16 @@ export const findById = async (id: number): Promise<Topic> => {
 		}).catch(err => err);
 };
 
+export const findByCourseId = async (id: number): Promise<Topic[]> => {
+    const query = 'SELECT * FROM topic WHERE course_id = ?';
+
+    if (!validators['number'](id)) throw new Error('Param {id} is invalid');
+
+    return execute(query, id)
+        .then(data => data)
+        .catch(err => err);
+};
+
 export const findByName = async (name: string): Promise<Topic> => {
     let query = 'SELECT * FROM topic WHERE name = ? LIMIT 1';
 

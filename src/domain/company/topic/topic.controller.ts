@@ -1,15 +1,25 @@
 import { Request, Response } from 'express';
 import { ApiError } from '../../application/error/api-error.model';
 import { Topic } from './topic.model';
-import { findAll, findById, findByName, save, remove, update } from './topic.service';
+import { findAll, findById, findByCourseId, findByName, save, remove, update } from './topic.service';
 
 const getTopics = (req: Request, res: Response) => {
-    if(req.query.name){
+    if(req.query.course_id){
+        const id = Number(req.query.course_id);
+        getTopicsByCourseId(res, id);
+        return;
+    } else if(req.query.name){
         const name = String(req.query.name);
         getTopicByName(res, name);
         return;
     }
     findAll()
+        .then(data => res.status(200).json(data))
+        .catch(err => res.status(500).json(new ApiError(err.message, err)));
+};
+
+const getTopicsByCourseId = (res: Response, id: number) => {
+    findByCourseId(id)
         .then(data => res.status(200).json(data))
         .catch(err => res.status(500).json(new ApiError(err.message, err)));
 };

@@ -1,12 +1,16 @@
 import { Request, Response } from 'express';
 import { ApiError } from '../../application/error/api-error.model';
 import { Theme } from './theme.model';
-import { findAll, findById, findByName, save, remove, update } from './theme.service';
+import { findAll, findById, findByTopicId, findByName, save, remove, update } from './theme.service';
 
-const getTopics = (req: Request, res: Response) => {
-    if(req.query.name){
+const getThemes = (req: Request, res: Response) => {
+    if(req.query.topic_id){
+        const id = Number(req.query.topic_id);
+        getThemesByTopicId(res, id);
+        return;
+    } else if(req.query.name){
         const name = String(req.query.name);
-        getTopicByName(res, name);
+        getThemeByName(res, name);
         return;
     }
     findAll()
@@ -14,13 +18,19 @@ const getTopics = (req: Request, res: Response) => {
         .catch(err => res.status(500).json(new ApiError(err.message, err)));
 };
 
-const getTopicByName = (res: Response, name: string) => {
+const getThemesByTopicId = (res: Response, id: number) => {
+    findByTopicId(id)
+        .then(data => res.status(200).json(data))
+        .catch(err => res.status(500).json(new ApiError(err.message, err)));
+};
+
+const getThemeByName = (res: Response, name: string) => {
     findByName(name)
         .then(data => res.status(200).json(data))
         .catch(err => res.status(500).json(new ApiError(err.message, err)));
 };
 
-const getTopic = (req: Request, res: Response) => {
+const getTheme = (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
     findById(id)
@@ -28,7 +38,7 @@ const getTopic = (req: Request, res: Response) => {
         .catch(err => res.status(500).json(new ApiError(err.message, err)));
 };
 
-const createTopic = (req: Request, res: Response) => {
+const createTheme = (req: Request, res: Response) => {
     const body: Theme = req.body;
 
     save(body)
@@ -36,7 +46,7 @@ const createTopic = (req: Request, res: Response) => {
         .catch((err) => (res.status(500).json(new ApiError(err.message, err))));
 };
 
-const updateTopic = (req: Request, res: Response) => {
+const updateTheme = (req: Request, res: Response) => {
     const id = Number(req.params.id);
     const body: Theme = req.body;
 
@@ -49,7 +59,7 @@ const updateTopic = (req: Request, res: Response) => {
 		.catch(err => res.status(500).json(new ApiError(err.message, err)));
 };
 
-const deleteTopic = (req: Request, res: Response) => {
+const deleteTheme = (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
     remove(id)
@@ -62,9 +72,9 @@ const deleteTopic = (req: Request, res: Response) => {
 };
 
 export default {
-    getTopics,
-    getTopic,
-    createTopic,
-    updateTopic,
-    deleteTopic
+    getThemes,
+    getTheme,
+    createTheme,
+    updateTheme,
+    deleteTheme
 };

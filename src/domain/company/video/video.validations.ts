@@ -1,5 +1,5 @@
 import { body, param } from 'express-validator';
-import { findById } from '../theme/theme.service'
+import { findById } from '../activity/activity.service';
 
 const id = () =>
     param('id')
@@ -7,15 +7,15 @@ const id = () =>
         .exists().withMessage('ID can\'t be undefined.')
         .notEmpty().withMessage('ID can\'t be null.');
 
-const theme = () =>
-    body('theme_id')
-        .isInt().withMessage('THEME ID must be number.')
-        .exists().withMessage('THEME ID can\'t be undefined.')
-        .notEmpty().withMessage('THEME ID can\'t be null.')
+const activity = () =>
+    body('activity_id')
+        .isInt().withMessage('ACTIVITY ID must be number.')
+        .exists().withMessage('ACTIVITY ID can\'t be undefined.')
+        .notEmpty().withMessage('ACTIVITY ID can\'t be null.')
         .custom(value =>
             findById(value)
                 .then(data => {
-                    if (!Object.keys(data).length) return Promise.reject('THEME doesn\'t exist.');
+                    if (!Object.keys(data).length) return Promise.reject('ACTIVITY doesn\'t exist.');
                 }).catch(err => {
                     return Promise.reject(err);
                 })
@@ -29,23 +29,19 @@ const name = () =>
         .isLength({ max: 255 }).withMessage('NAME can\'t be too large.')
         .trim().escape();
 
-const type = () =>
-    body('type')
-        .isString().withMessage('TYPE must be string.')
-        .exists().withMessage('TYPE can\'t be undefined.')
-        .notEmpty().withMessage('TYPE can\'t be null.')
-        .isIn(['quiz', 'video']).withMessage('TYPE can only contain keywords.');
-
-const position = () =>
-    body('position')
-        .isInt().withMessage('POSITION must be number.');
+const url = () =>
+    body('url')
+        .isURL().withMessage('URL must be url.')
+        .exists().withMessage('URL can\'t be undefined.')
+        .notEmpty().withMessage('URL can\'t be null.')
+        .isLength({ max: 1024 }).withMessage('URL can\'t be too large.')
+        .trim();
 
 const validators = {
     id,
-    theme,
+    activity,
     name,
-    type,
-    position
+    url
 };
 
 export default validators;
