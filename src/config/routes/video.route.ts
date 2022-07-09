@@ -9,9 +9,9 @@ router.get(`${api.path}/videos`, controller.getVideos);
 
 router.get(`${api.path}/videos/:id`, validate(['id'], validators), controller.getVideo);
 
-router.post(`${api.path}/videos`, validate(['activity', 'name', 'url'], validators), controller.createVideo);
+router.post(`${api.path}/videos`, validate(['activity_id', 'name', 'url'], validators), controller.createVideo);
 
-router.put(`${api.path}/videos/:id`, validate(['id', 'activity', 'name', 'url'], validators), controller.updateVideo);
+router.put(`${api.path}/videos/:id`, validate([], validators), controller.updateVideo);
 
 router.delete(`${api.path}/videos/:id`, validate(['id'], validators), controller.deleteVideo);
 

@@ -9,9 +9,9 @@ router.get(`${api.path}/choices`, controller.getChoices);
 
 router.get(`${api.path}/choices/:id`, validate(['id'], validators), controller.getChoice);
 
-router.post(`${api.path}/choices`, validate(['question', 'description', 'type'], validators), controller.createChoice);
+router.post(`${api.path}/choices`, validate(['question_id', 'description', 'type'], validators), controller.createChoice);
 
-router.put(`${api.path}/choices/:id`, validate(['id', 'question', 'description', 'type'], validators), controller.updateChoice);
+router.put(`${api.path}/choices/:id`, validate([], validators), controller.updateChoice);
 
 router.delete(`${api.path}/choices/:id`, validate(['id'], validators), controller.deleteChoice);
 

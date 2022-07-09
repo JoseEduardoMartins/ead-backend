@@ -1,5 +1,6 @@
 import { body, param } from 'express-validator';
-import { findById } from '../theme/theme.service'
+import { findById as findByCourseId } from '../course/course.service';
+import { findById as findByThemeId } from '../theme/theme.service'
 
 const id = () =>
     param('id')
@@ -7,13 +8,25 @@ const id = () =>
         .exists().withMessage('ID can\'t be undefined.')
         .notEmpty().withMessage('ID can\'t be null.');
 
-const theme = () =>
+const course_id = () =>
+    body('course_id')
+        .isInt().withMessage('COURSE ID must be number.')
+        .exists().withMessage('COURSE ID can\'t be undefined.')
+        .notEmpty().withMessage('COURSE ID can\'t be null.')
+        .custom(value =>
+            findByCourseId(value)
+                .then(data => {
+                    if (!Object.keys(data).length) return Promise.reject('COURSE doesn\'t exist.');
+                }).catch(err => {
+                    return Promise.reject(err);
+                })
+        );
+
+const theme_id = () =>
     body('theme_id')
         .isInt().withMessage('THEME ID must be number.')
-        .exists().withMessage('THEME ID can\'t be undefined.')
-        .notEmpty().withMessage('THEME ID can\'t be null.')
         .custom(value =>
-            findById(value)
+            findByThemeId(value)
                 .then(data => {
                     if (!Object.keys(data).length) return Promise.reject('THEME doesn\'t exist.');
                 }).catch(err => {
@@ -42,7 +55,8 @@ const position = () =>
 
 const validators = {
     id,
-    theme,
+    course_id,
+    theme_id,
     name,
     type,
     position

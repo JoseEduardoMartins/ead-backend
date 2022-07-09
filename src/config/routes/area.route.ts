@@ -9,9 +9,9 @@ router.get(`${api.path}/areas`, areaCtrl.getAreas);
 
 router.get(`${api.path}/areas/:id`, validate(['id'], validators), areaCtrl.getArea);
 
-router.post(`${api.path}/areas`, validate(['name', 'description'], validators), areaCtrl.createArea);
+router.post(`${api.path}/areas`, validate(['name'], validators), areaCtrl.createArea);
 
-router.put(`${api.path}/areas/:id`, validate(['id', 'name', 'description'], validators), areaCtrl.updateArea);
+router.put(`${api.path}/areas/:id`, validate([], validators), areaCtrl.updateArea);
 
 router.delete(`${api.path}/areas/:id`, validate(['id'], validators), areaCtrl.deleteArea);
 

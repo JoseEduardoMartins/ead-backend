@@ -9,9 +9,9 @@ router.get(`${api.path}/questions`, controller.getQuestions);
 
 router.get(`${api.path}/questions/:id`, validate(['id'], validators), controller.getQuestion);
 
-router.post(`${api.path}/questions`, validate(['quiz', 'description', 'type'], validators), controller.createQuestion);
+router.post(`${api.path}/questions`, validate(['quiz_id', 'description', 'type'], validators), controller.createQuestion);
 
-router.put(`${api.path}/questions/:id`, validate(['id', 'quiz', 'description', 'type'], validators), controller.updateQuestion);
+router.put(`${api.path}/questions/:id`, validate([], validators), controller.updateQuestion);
 
 router.delete(`${api.path}/questions/:id`, validate(['id'], validators), controller.deleteQuestion);
 

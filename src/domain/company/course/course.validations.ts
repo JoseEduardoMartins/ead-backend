@@ -9,7 +9,7 @@ const id = () =>
         .exists().withMessage('ID can\'t be undefined.')
         .notEmpty().withMessage('ID can\'t be null.');
 
-const user = () =>
+const user_id = () =>
     body('user_id')
         .isInt().withMessage('USER ID must be number.')
         .exists().withMessage('USER ID can\'t be undefined.')
@@ -65,7 +65,7 @@ const time = () =>
         .exists().withMessage('TIME can\'t be undefined.')
         .notEmpty().withMessage('TIME can\'t be null.');
 
-const area = () =>
+const area_id = () =>
     body('area_id')
         .isInt().withMessage('AREA ID must be number.')
         .exists().withMessage('AREA ID can\'t be undefined.')
@@ -87,13 +87,13 @@ const isActive = () =>
 
 const validators = {
     id,
-    user,
+    user_id,
     name,
     description,
     date_update,
     level,
     time,
-    area,
+    area_id,
     isActive
 };
 

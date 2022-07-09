@@ -9,9 +9,9 @@ router.get(`${api.path}/activities`, controller.getActivities);
 
 router.get(`${api.path}/activities/:id`, validate(['id'], validators), controller.getActivity);
 
-router.post(`${api.path}/activities`, validate(['theme', 'name', 'type', 'position'], validators), controller.createActivity);
+router.post(`${api.path}/activities`, validate(['course_id', 'name', 'type'], validators), controller.createActivity);
 
-router.put(`${api.path}/activities/:id`, validate(['id', 'theme', 'name', 'type', 'position'], validators), controller.updateActivity);
+router.put(`${api.path}/activities/:id`, validate([], validators), controller.updateActivity);
 
 router.delete(`${api.path}/activities/:id`, validate(['id'], validators), controller.deleteActivity);
 

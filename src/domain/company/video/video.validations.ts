@@ -7,7 +7,7 @@ const id = () =>
         .exists().withMessage('ID can\'t be undefined.')
         .notEmpty().withMessage('ID can\'t be null.');
 
-const activity = () =>
+const activity_id = () =>
     body('activity_id')
         .isInt().withMessage('ACTIVITY ID must be number.')
         .exists().withMessage('ACTIVITY ID can\'t be undefined.')
@@ -39,7 +39,7 @@ const url = () =>
 
 const validators = {
     id,
-    activity,
+    activity_id,
     name,
     url
 };

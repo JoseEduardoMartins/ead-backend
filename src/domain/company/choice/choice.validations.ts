@@ -7,7 +7,7 @@ const id = () =>
         .exists().withMessage('ID can\'t be undefined.')
         .notEmpty().withMessage('ID can\'t be null.');
 
-const question = () =>
+const question_id = () =>
     body('question_id')
         .isInt().withMessage('QUESTION ID must be number.')
         .exists().withMessage('QUESTION ID can\'t be undefined.')
@@ -37,7 +37,7 @@ const type = () =>
 
 const validators = {
     id,
-    question,
+    question_id,
     description,
     type
 };

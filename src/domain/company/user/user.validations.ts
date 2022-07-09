@@ -16,13 +16,17 @@ const type_user = () =>
         .exists().withMessage('TYPE USER can\'t be undefined.')
         .notEmpty().withMessage('TYPE USER can\'t be null.')
         .isIn(['admin', 'subAdmin', 'teacher', 'student'])
-        .trim().escape();
+        .replace('\'', '')
+        .replace('"', '')
+        .trim();
 
 const profile_picture = () =>
     body('profile_picture')
         .isString().withMessage('PROFILE PICTURE must be string.')
         .isLength({ max: 200 }).withMessage('PROFILE PICTURE can\'t be too large.')
-        .trim().escape();
+        .replace('\'', '')
+        .replace('"', '')
+        .trim();
         
 const name = () =>
     body('name')
@@ -30,7 +34,9 @@ const name = () =>
         .exists().withMessage('NAME can\'t be undefined.')
         .notEmpty().withMessage('NAME can\'t be null.')
         .isLength({ max: 200 }).withMessage('NAME can\'t be too large.')
-        .trim().escape();
+        .replace('\'', '')
+        .replace('"', '')
+        .trim();
 
 const birth = () =>
     body('birth')
@@ -45,7 +51,7 @@ const gender = () =>
         .notEmpty().withMessage('GENDER can\'t be null.')
         .isIn(['feminine', 'masculine', 'other']);
 
-const area = () =>
+const area_id = () =>
     body('area_id')
         .isInt().withMessage('AREA ID must be number.')
         .exists().withMessage('AREA ID can\'t be undefined.')
@@ -65,7 +71,9 @@ const phone = () =>
         .exists().withMessage('PHONE can\'t be undefined.')
         .notEmpty().withMessage('PHONE can\'t be null.')
         .isLength({ max: 20 }).withMessage('PHONE can\'t be too large.')
-        .trim().escape()
+        .replace('\'', '')
+        .replace('"', '')
+        .trim()
         .custom(value =>
             findByPhone(value)
                 .then(data => {
@@ -81,25 +89,33 @@ const biography = () =>
     body('biography')
         .isString().withMessage('BIOGRAPHY must be string.')
         .isLength({ max: 200 }).withMessage('BIOGRAPHY can\'t be too large.')
-        .trim().escape();
+        .replace('\'', '')
+        .replace('"', '')
+        .trim();
  
 const about = () =>
     body('about')
         .isString().withMessage('ABOUT must be string.')
         .isLength({ max: 1000 }).withMessage('ABOUT can\'t be too large.')
-        .trim().escape(); 
+        .replace('\'', '')
+        .replace('"', '')
+        .trim(); 
  
 const linkedin = () =>
     body('linkedin')
         .isString().withMessage('LINKEDIN must be string.')
         .isLength({ max: 500 }).withMessage('LINKEDIN can\'t be too large.')
-        .trim().escape();
+        .replace('\'', '')
+        .replace('"', '')
+        .trim();
 
 const github = () =>
     body('github')
         .isString().withMessage('GITHUB must be string.')
         .isLength({ max: 500 }).withMessage('GITHUB can\'t be too large.')
-        .trim().escape();
+        .replace('\'', '')
+        .replace('"', '')
+        .trim();
 
 const level = () =>
     body('level')
@@ -107,7 +123,9 @@ const level = () =>
         .exists().withMessage('LEVEL can\'t be undefined.')
         .notEmpty().withMessage('LEVEL can\'t be null.')
         .isLength({ min: 0 }).withMessage('LEVEL can\'t be too small.')
-        .trim().escape();
+        .replace('\'', '')
+        .replace('"', '')
+        .trim();
 
 const email = () =>
     body('email')
@@ -116,13 +134,14 @@ const email = () =>
         .exists().withMessage('EMAIL can\'t be undefined.')
         .notEmpty().withMessage('EMAIL can\'t be null.')
         .isLength({ max: 200 }).withMessage('EMAIL can\'t be too large.')
-        .trim().escape()
+        .replace('\'', '')
+        .replace('"', '')
+        .trim()
         .custom(value =>
             findByEmail(value)
                 .then(data => {
-                    if (Object.keys(data).length) {
+                    if (Object.keys(data).length)
                         return Promise.reject('EMAIL already exists.');
-                    }
                 }).catch(err => {
                     return Promise.reject(err);
                 })
@@ -135,7 +154,9 @@ const password = () =>
         .notEmpty().withMessage('PASSWORD can\'t be null.')
         .isLength({ min: 8 }).withMessage('PASSWORD can\'t be too small.')
         .isLength({ max: 200 }).withMessage('PASSWORD can\'t be too large.')
-        .trim().escape()
+        .replace('\'', '')
+        .replace('"', '')
+        .trim()
         .customSanitizer(value => {
             return md5(value + api.key);
         });
@@ -153,7 +174,7 @@ const validators = {
     name,
     birth,
     gender,
-    area,
+    area_id,
     phone,
     biography,
     about,

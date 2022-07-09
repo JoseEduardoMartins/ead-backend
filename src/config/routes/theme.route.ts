@@ -9,9 +9,9 @@ router.get(`${api.path}/themes`, controller.getThemes);
 
 router.get(`${api.path}/themes/:id`, validate(['id'], validators), controller.getTheme);
 
-router.post(`${api.path}/themes`, validate(['topic', 'name', 'description', 'position'], validators), controller.createTheme);
+router.post(`${api.path}/themes`, validate(['course_id', 'name'], validators), controller.createTheme);
 
-router.put(`${api.path}/themes/:id`, validate(['id', 'topic', 'name', 'description', 'position'], validators), controller.updateTheme);
+router.put(`${api.path}/themes/:id`, validate([], validators), controller.updateTheme);
 
 router.delete(`${api.path}/themes/:id`, validate(['id'], validators), controller.deleteTheme);
 
