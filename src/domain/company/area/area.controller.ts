@@ -1,21 +1,10 @@
 import { Request, Response } from 'express';
 import { ApiError } from '../../application/error/api-error.model';
 import { Area } from './area.model';
-import { findAll, findById, findByName, save, remove, update } from './area.service';
+import { findByFilters, findById, save, remove, update } from './area.service';
 
 const getAreas = (req: Request, res: Response) => {
-    if(req.query.name){
-        const name = String(req.query.name);
-        getAreaByName(res, name);
-        return;
-    }
-    findAll()
-        .then(data => res.status(200).json(data))
-        .catch(err => res.status(500).json(new ApiError(err.message, err)));
-};
-
-const getAreaByName = (res: Response, name: string) => {
-    findByName(name)
+    findByFilters(req.query)
         .then(data => res.status(200).json(data))
         .catch(err => res.status(500).json(new ApiError(err.message, err)));
 };

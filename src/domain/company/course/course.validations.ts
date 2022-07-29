@@ -28,8 +28,10 @@ const name = () =>
         .isString().withMessage('NAME must be string.')
         .exists().withMessage('NAME can\'t be undefined.')
         .notEmpty().withMessage('NAME can\'t be null.')
+        .bail()
+        .customSanitizer(value => value.replace(/'/g, '').replace(/"/g, ''))
         .isLength({ max: 255 }).withMessage('NAME can\'t be too large.')
-        .trim().escape()
+        .trim()
         .custom(value =>
             findByName(value)
                 .then(data => {
@@ -44,13 +46,17 @@ const description = () =>
         .isString().withMessage('DESCRIPTION must be string.')
         .exists().withMessage('DESCRIPTION can\'t be undefined.')
         .notEmpty().withMessage('DESCRIPTION can\'t be null.')
+        .bail()
+        .customSanitizer(value => value.replace(/'/g, '').replace(/"/g, ''))
         .isLength({ max: 1024 }).withMessage('DESCRIPTION can\'t be too large.')
-        .trim().escape();
+        .trim();
 
 const date_update = () =>
     body('date_update')
         .isDate().withMessage('DATE UPDATE must be date.')
-        .trim().escape();
+        .bail()
+        .customSanitizer(value => value.replace(/'/g, '').replace(/"/g, ''))
+        .trim();
 
 const level = () =>
     body('level')

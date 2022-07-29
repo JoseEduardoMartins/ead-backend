@@ -16,7 +16,7 @@ const course_id = () =>
         .custom(value =>
             findByCourseId(value)
                 .then(data => {
-                    if (!Object.keys(data).length) return Promise.reject('COURSE doesn\'t exist.');
+                    if (!Object.keys(data).length) return Promise.reject('COURSE ID doesn\'t exist.');
                 }).catch(err => {
                     return Promise.reject(err);
                 })
@@ -28,7 +28,7 @@ const theme_id = () =>
         .custom(value =>
             findByThemeId(value)
                 .then(data => {
-                    if (!Object.keys(data).length) return Promise.reject('THEME doesn\'t exist.');
+                    if (!Object.keys(data).length) return Promise.reject('THEME ID doesn\'t exist.');
                 }).catch(err => {
                     return Promise.reject(err);
                 })
@@ -39,8 +39,10 @@ const name = () =>
         .isString().withMessage('NAME must be string.')
         .exists().withMessage('NAME can\'t be undefined.')
         .notEmpty().withMessage('NAME can\'t be null.')
+        .bail()
+        .customSanitizer(value => value.replace(/'/g, '').replace(/"/g, ''))
         .isLength({ max: 255 }).withMessage('NAME can\'t be too large.')
-        .trim().escape();
+        .trim();
 
 const type = () =>
     body('type')

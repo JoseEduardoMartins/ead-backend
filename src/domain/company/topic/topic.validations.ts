@@ -1,5 +1,5 @@
 import { body, param } from 'express-validator';
-import { findById } from '../course/course.service'
+import { findById } from '../course/course.service';
 
 const id = () =>
     param('id')
@@ -15,7 +15,7 @@ const course_id = () =>
         .custom(value =>
             findById(value)
                 .then(data => {
-                    if (!Object.keys(data).length) return Promise.reject('COURSE doesn\'t exist.');
+                    if (!Object.keys(data).length) return Promise.reject('COURSE ID doesn\'t exist.');
                 }).catch(err => {
                     return Promise.reject(err);
                 })
@@ -26,14 +26,18 @@ const name = () =>
         .isString().withMessage('NAME must be string.')
         .exists().withMessage('NAME can\'t be undefined.')
         .notEmpty().withMessage('NAME can\'t be null.')
+        .bail()
+        .customSanitizer(value => value.replace(/'/g, '').replace(/"/g, ''))
         .isLength({ max: 255 }).withMessage('NAME can\'t be too large.')
-        .trim().escape();
+        .trim();
 
 const description = () =>
     body('description')
         .isString().withMessage('DESCRIPTION must be string.')
+        .bail()
+        .customSanitizer(value => value.replace(/'/g, '').replace(/"/g, ''))
         .isLength({ max: 1024 }).withMessage('DESCRIPTION can\'t be too large.')
-        .trim().escape();
+        .trim();
 
 const position = () =>
     body('position')

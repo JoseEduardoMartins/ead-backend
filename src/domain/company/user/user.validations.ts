@@ -15,17 +15,17 @@ const type_user = () =>
         .isString().withMessage('TYPE USER must be string.')
         .exists().withMessage('TYPE USER can\'t be undefined.')
         .notEmpty().withMessage('TYPE USER can\'t be null.')
+        .bail()
+        .customSanitizer(value => value.replace(/'/g, '').replace(/"/g, ''))
         .isIn(['admin', 'subAdmin', 'teacher', 'student'])
-        .replace('\'', '')
-        .replace('"', '')
         .trim();
 
 const profile_picture = () =>
     body('profile_picture')
         .isString().withMessage('PROFILE PICTURE must be string.')
+        .bail()
+        .customSanitizer(value => value.replace(/'/g, '').replace(/"/g, ''))
         .isLength({ max: 200 }).withMessage('PROFILE PICTURE can\'t be too large.')
-        .replace('\'', '')
-        .replace('"', '')
         .trim();
         
 const name = () =>
@@ -33,9 +33,9 @@ const name = () =>
         .isString().withMessage('NAME must be string.')
         .exists().withMessage('NAME can\'t be undefined.')
         .notEmpty().withMessage('NAME can\'t be null.')
+        .bail()
+        .customSanitizer(value => value.replace(/'/g, '').replace(/"/g, ''))
         .isLength({ max: 200 }).withMessage('NAME can\'t be too large.')
-        .replace('\'', '')
-        .replace('"', '')
         .trim();
 
 const birth = () =>
@@ -70,9 +70,9 @@ const phone = () =>
         .isString().withMessage('PHONE must be string.')
         .exists().withMessage('PHONE can\'t be undefined.')
         .notEmpty().withMessage('PHONE can\'t be null.')
+        .bail()
+        .customSanitizer(value => value.replace(/'/g, '').replace(/"/g, ''))
         .isLength({ max: 20 }).withMessage('PHONE can\'t be too large.')
-        .replace('\'', '')
-        .replace('"', '')
         .trim()
         .custom(value =>
             findByPhone(value)
@@ -88,33 +88,33 @@ const phone = () =>
 const biography = () =>
     body('biography')
         .isString().withMessage('BIOGRAPHY must be string.')
+        .bail()
+        .customSanitizer(value => value.replace(/'/g, '').replace(/"/g, ''))
         .isLength({ max: 200 }).withMessage('BIOGRAPHY can\'t be too large.')
-        .replace('\'', '')
-        .replace('"', '')
         .trim();
  
 const about = () =>
     body('about')
         .isString().withMessage('ABOUT must be string.')
+        .bail()
+        .customSanitizer(value => value.replace(/'/g, '').replace(/"/g, ''))
         .isLength({ max: 1000 }).withMessage('ABOUT can\'t be too large.')
-        .replace('\'', '')
-        .replace('"', '')
         .trim(); 
  
 const linkedin = () =>
     body('linkedin')
         .isString().withMessage('LINKEDIN must be string.')
+        .bail()
+        .customSanitizer(value => value.replace(/'/g, '').replace(/"/g, ''))
         .isLength({ max: 500 }).withMessage('LINKEDIN can\'t be too large.')
-        .replace('\'', '')
-        .replace('"', '')
         .trim();
 
 const github = () =>
     body('github')
         .isString().withMessage('GITHUB must be string.')
+        .bail()
+        .customSanitizer(value => value.replace(/'/g, '').replace(/"/g, ''))
         .isLength({ max: 500 }).withMessage('GITHUB can\'t be too large.')
-        .replace('\'', '')
-        .replace('"', '')
         .trim();
 
 const level = () =>
@@ -122,9 +122,9 @@ const level = () =>
         .isInt().withMessage('LEVEL must be number.')
         .exists().withMessage('LEVEL can\'t be undefined.')
         .notEmpty().withMessage('LEVEL can\'t be null.')
+        .bail()
+        .customSanitizer(value => value.replace(/'/g, '').replace(/"/g, ''))
         .isLength({ min: 0 }).withMessage('LEVEL can\'t be too small.')
-        .replace('\'', '')
-        .replace('"', '')
         .trim();
 
 const email = () =>
@@ -133,9 +133,9 @@ const email = () =>
         .isEmail().normalizeEmail().withMessage('EMAIL is invalid.')
         .exists().withMessage('EMAIL can\'t be undefined.')
         .notEmpty().withMessage('EMAIL can\'t be null.')
+        .bail()
+        .customSanitizer(value => value.replace(/'/g, '').replace(/"/g, ''))
         .isLength({ max: 200 }).withMessage('EMAIL can\'t be too large.')
-        .replace('\'', '')
-        .replace('"', '')
         .trim()
         .custom(value =>
             findByEmail(value)
@@ -153,9 +153,9 @@ const password = () =>
         .exists().withMessage('PASSWORD can\'t be undefined.')
         .notEmpty().withMessage('PASSWORD can\'t be null.')
         .isLength({ min: 8 }).withMessage('PASSWORD can\'t be too small.')
+        .bail()
+        .customSanitizer(value => value.replace(/'/g, '').replace(/"/g, ''))
         .isLength({ max: 200 }).withMessage('PASSWORD can\'t be too large.')
-        .replace('\'', '')
-        .replace('"', '')
         .trim()
         .customSanitizer(value => {
             return md5(value + api.key);

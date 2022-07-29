@@ -1,10 +1,24 @@
 import { Area } from './area.model';
 import { execute } from '../../../config/mysql';
 
-export const findAll = async (): Promise<Area[]> => {
-    const query = 'SELECT * FROM area';
+export const findByFilters = async (filters: object): Promise<Area> => {
+    let query = 'SELECT * FROM area';
 
-    return execute(query, {}).then(data => data).catch(err => err);
+    const elements = Object.entries(filters);
+
+    if (elements.length > 0) query += ' WHERE ';
+
+    elements.forEach((element, index) => {
+        if(element[0] === 'user') element[0] = 'user_id';
+        if(element[0] === 'course') element[0] = 'course_id';
+
+        query += `${element[0]} = '${element[1]}'`;
+
+        if(index < elements.length-1) query += ' AND ';
+    });
+
+    return execute(query, {})
+        .then(data => data).catch(err => err);
 };
 
 export const findById = async (id: number): Promise<Area> => {

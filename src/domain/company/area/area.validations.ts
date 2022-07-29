@@ -12,9 +12,9 @@ const name = () =>
         .isString().withMessage('NAME must be string.')
         .exists().withMessage('NAME can\'t be undefined.')
         .notEmpty().withMessage('NAME can\'t be null.')
+        .bail()
+        .customSanitizer(value => value.replace(/'/g, '').replace(/"/g, ''))
         .isLength({ max: 255 }).withMessage('NAME can\'t be too large.')
-        .replace('\'', '')
-        .replace('"', '')
         .trim()
         .custom(value =>
             findByName(value)
@@ -28,9 +28,9 @@ const name = () =>
 const description = () =>
     body('description')
         .isString().withMessage('DESCRIPTION must be string.')
+        .bail()
+        .customSanitizer(value => value.replace(/'/g, '').replace(/"/g, ''))
         .isLength({ max: 500 }).withMessage('DESCRIPTION can\'t be too large.')
-        .replace('\'', '')
-        .replace('"', '')
         .trim();
 
 const validators = {

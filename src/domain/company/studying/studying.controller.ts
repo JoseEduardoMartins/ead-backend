@@ -1,15 +1,15 @@
 import { Request, Response } from 'express';
 import { ApiError } from '../../application/error/api-error.model';
-import { Activity } from './activity.model';
-import { findByFilters, findById, save, remove, update } from './activity.service';
+import { Studying } from './studying.model';
+import { findByFilters, findById, save, remove, update } from './studying.service';
 
-const getActivities = (req: Request, res: Response) => {
+const getStudies = (req: Request, res: Response) => {
     findByFilters(req.query)
         .then(data => res.status(200).json(data))
         .catch(err => res.status(500).json(new ApiError(err.message, err)));
 };
 
-const getActivity = (req: Request, res: Response) => {
+const getStudying = (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
     findById(id)
@@ -17,17 +17,17 @@ const getActivity = (req: Request, res: Response) => {
         .catch(err => res.status(500).json(new ApiError(err.message, err)));
 };
 
-const createActivity = (req: Request, res: Response) => {
-    const body: Activity = req.body;
+const createStudying = (req: Request, res: Response) => {
+    const body: Studying = req.body;
 
     save(body)
         .then((data) => res.status(201).json(data))
         .catch((err) => (res.status(500).json(new ApiError(err.message, err))));
 };
 
-const updateActivity = (req: Request, res: Response) => {
+const updateStudying = (req: Request, res: Response) => {
     const id = Number(req.params.id);
-    const body: Activity = req.body;
+    const body: Studying = req.body;
 
     update(id, body)
         .then(data => {
@@ -38,7 +38,7 @@ const updateActivity = (req: Request, res: Response) => {
 		.catch(err => res.status(500).json(new ApiError(err.message, err)));
 };
 
-const deleteActivity = (req: Request, res: Response) => {
+const deleteStudying = (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
     remove(id)
@@ -51,9 +51,9 @@ const deleteActivity = (req: Request, res: Response) => {
 };
 
 export default {
-    getActivities,
-    getActivity,
-    createActivity,
-    updateActivity,
-    deleteActivity
+    getStudies,
+    getStudying,
+    createStudying,
+    updateStudying,
+    deleteStudying
 };

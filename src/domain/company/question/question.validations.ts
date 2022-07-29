@@ -26,8 +26,10 @@ const description = () =>
         .isString().withMessage('DESCRIPTION must be string.')
         .exists().withMessage('DESCRIPTION can\'t be undefined.')
         .notEmpty().withMessage('DESCRIPTION can\'t be null.')
+        .bail()
+        .customSanitizer(value => value.replace(/'/g, '').replace(/"/g, ''))
         .isLength({ max: 1024 }).withMessage('DESCRIPTION can\'t be too large.')
-        .trim().escape();
+        .trim();
 
 const type = () =>
     body('type')
