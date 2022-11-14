@@ -1,6 +1,4 @@
 # ead-backend
-
-# flowupp-backend
 Project that provide api and configurations around ead business rules and data.
 
 # Running
